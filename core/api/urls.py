@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("", views.OVerviewAPIView.as_view(), name="api_docs"),
     path("all-data/", views.AllDataAPIView.as_view(), name="all_data"),
     path("humidity/", views.HumidityAPIView.as_view(), name="humidity"),
     path("temperature/", views.TemperatureAPIView.as_view(), name="temperature"),
