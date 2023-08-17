@@ -12,11 +12,38 @@ from api.models import Humidity, Moisture, Temperature
 from api.serializers import HumiditySerializer, MoistureSerializer, TemperatureSerializer
 from .firebase_config import firebaseConfig
 
+# initialize firebase realtime database
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
 
+
+class OVerviewAPIView(APIView):
+    '''For getting the overview of the data'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        print("getting overview data...")
+        return Response({
+            "message": "Welcome to the API for the Smart Farming Project.",
+            "endpoints": [
+                {"endpoint": "all-data", "description": "Get all the data from the database"},
+                {"endpoint": "humidity", "description": "Get all the humidity data from the database"},
+                {"endpoint": "temperature", "description": "Get all the temperature data from the database"},
+                {"endpoint": "moisture", "description": "Get all the moisture data from the database"},
+                {"endpoint": "populate-db", "description": "Fetch data from the firebase realtime database and save it to the django database"},
+                ],
+            "url_format": "http://127.0.0.1:8000/api-v1/<endpoint>/",
+           },
+            status=status.HTTP_200_OK
+        )
+
+
 class FetchDataAPIView(APIView):
+    '''
+    Fetches data from the firebase realtime database 
+    and saves it to the django database
+    '''
     permission_classes = [permissions.AllowAny]
     
     def post(self, request, *args, **kwargs):
@@ -24,32 +51,21 @@ class FetchDataAPIView(APIView):
         humidity = database.child("bulkHumidity").get().val()
         moisture = database.child("bulkMoisture").get().val()
         temperature = database.child("bulkTemperature").get().val()
-        # # use bulk_save to save multiple objects at once
-        # Humidity.objects.bulk_create([Humidity(humidity=humidity[key], date=key) for key in dict(humidity)])
-        # Moisture.objects.bulk_create([Moisture(moisture=moisture[key], date=key) for key in dict(moisture)])
-        # Temperature.objects.bulk_create([Temperature(temperature=temperature[key], date=key) for key in dict(temperature)]) #noqa
-        
         hum_list = []
         temp_list = []
         moist_list = []
         for item in dict(humidity):
-            # check if item with same data already exists
             if Humidity.objects.filter(date=item).exists():
-                # skip if item already exists
                 continue
             hum_list.append(Humidity(humidity=humidity[item], date=item))
             
         for item in dict(moisture):
-            # check if item with same data already exists
             if Moisture.objects.filter(date=item).exists():
-                # skip if item already exists
                 continue
             moist_list.append(Moisture(moisture=moisture[item], date=item))
             
         for item in dict(temperature):
-            # check if item with same data already exists
             if Temperature.objects.filter(date=item).exists():
-                # skip if item already exists
                 continue
             temp_list.append(Temperature(temperature=temperature[item], date=item))
         
