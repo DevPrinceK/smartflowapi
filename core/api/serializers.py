@@ -1,7 +1,14 @@
 from rest_framework import serializers
-from rest_framework.response import Response
 
 from .models import *
+
+
+class EnvironmentalDataSerializer(serializers.ModelSerializer):
+    '''serializes environmental data'''
+
+    class Meta:
+        model = EnvironmentalData
+        fields = '__all__'
 
 
 class HumiditySerializer(serializers.ModelSerializer):
