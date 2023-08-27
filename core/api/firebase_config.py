@@ -6,4 +6,4 @@ firebaseConfig = {
   "storageBucket": "smartflow-f427f.appspot.com",
   "messagingSenderId": "517900042843",
   "appId": "1:517900042843:web:e56889e88715a0d113757e"
-};
+}
