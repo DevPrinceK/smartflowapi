@@ -1,5 +1,18 @@
 from django.db import models
 
+
+class EnvironmentalData(models.Model):
+    '''records environmental data from the sensor'''
+    humidity = models.IntegerField()
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    moisture = models.IntegerField()
+    timestamp = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.timestamp
+
+
 class Humidity(models.Model):
     '''records humidity data'''
     humidity = models.IntegerField()
