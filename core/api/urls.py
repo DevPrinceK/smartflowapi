@@ -8,4 +8,5 @@ urlpatterns = [
     path("temperature/", views.TemperatureAPIView.as_view(), name="temperature"),
     path("moisture/", views.MoistureAPIView.as_view(), name="moisture"),
     path("populate-db/", views.FetchDataAPIView.as_view(), name="populate"),
+    path("generate/", views.GenerateRandomEnvData.as_view(), name="generate"),
 ]
