@@ -32,24 +32,18 @@ def generate_data(frequency: int):
         database.child("data").push(data, token=None)
         frequency = frequency - 1
         time.sleep(5)
-        print(time.time())
     print("Database Successfully Populated!")
     
     
 def get_data():
+    '''Retrieves all the data from the firebase realtime database'''
     res = database.child("data").get().val()
     return(dict(res))
 
+
+# Function calls
 generate_data(frequency=50)
+
+
 # data = get_data().values()
 # lst_data = list(data)
-# temps = [i['temperature'] for i in lst_data]
-# humids = [i['humidity'] for i in lst_data]
-# moists = [i['moisture'] for i in lst_data]
-# stamps = [i['timestamp'] for i in lst_data]
-# # print(data)
-# # print(lst_data)
-# # print(temps)
-# # print(humids)
-# # print(moists)
-# print(stamps)
