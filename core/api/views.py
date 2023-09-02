@@ -28,7 +28,7 @@ class OVerviewAPIView(APIView):
     def get(self, request):
         print("getting overview data...")
         return Response({
-            "message": "Welcome to the API for the Smart Farming Project.",
+            "message": "Welcome to the API for SmartFlow: The IoT-Based Smart Irrigation and Environmental Data Gathering System.",
             "endpoints": [
                 {"endpoint": "all-data",
                     "description": "Get all the data from the database"},
